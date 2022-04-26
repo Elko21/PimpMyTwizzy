@@ -35,7 +35,7 @@ public class AnalyseVideo {
 		System.load("C:\\Program Files\\opencv\\build\\x64\\vc14\\bin\\opencv_ffmpeg2413_64.dll");
 	}
 
-	static Mat imag = null;
+
 
 	public static void main(String[] args) {
 		JFrame jframe = new JFrame("Detection de panneaux sur un flux vidéo");
@@ -133,7 +133,7 @@ public class AnalyseVideo {
 		double [] scores=new double [6];
 		int indexmax=-1;
 		if (objetrond!=null){
-			MaBibliothequeTraitementImage.afficheImage("Objet rond detécté", objetrond);
+			//MaBibliothequeTraitementImage.afficheImage("Objet rond detécté", objetrond);
 			scores[0]=MaBibliothequeTraitementImage.Similitude(objetrond,"ref30.jpg");
 			scores[1]=MaBibliothequeTraitementImage.Similitude(objetrond,"ref50.jpg");
 			scores[2]=MaBibliothequeTraitementImage.Similitude(objetrond,"ref70.jpg");
