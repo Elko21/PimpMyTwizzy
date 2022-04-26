@@ -32,15 +32,14 @@ import org.opencv.imgproc.Imgproc;
 public class AnalyseVideo {
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		System.load("C:\\Program Files\\opencv\\build\\x64\\vc14\\bin\\opencv_ffmpeg2413_64.dll");
-		
+		System.load("O:\\Git\\PimpMyTwizzy_2022\\Etude2Twizzy\\opencv_ffmpeg2413_64.dll");
 	}
-	private Mat frame;
-	private VideoCapture camera;
+	public Mat frame;
+	public VideoCapture camera;
 	
 	public AnalyseVideo(String video) {
-		Mat frame = new Mat();
-		VideoCapture camera = new VideoCapture();
+		this.frame = new Mat();
+		this.camera = new VideoCapture();
 		camera.open(video);
 	}
 		
@@ -55,7 +54,7 @@ public class AnalyseVideo {
 		lectureVideo(camera, frame, vidpanel);
 */
 		
-	
+
 	public static BufferedImage Mat2bufferedImage(Mat image) {
 		MatOfByte bytemat = new MatOfByte();
 		Highgui.imencode(".jpg", image, bytemat);
@@ -94,7 +93,7 @@ public class AnalyseVideo {
 		return indexmax;
 	}
 	
-	public static void lectureVideo(VideoCapture camera,Mat frame) {
+	public void lectureVideo() {
 		JFrame jframe = new JFrame("Detection de panneaux sur un flux vidéo");
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JLabel vidpanel = new JLabel();
@@ -102,15 +101,15 @@ public class AnalyseVideo {
 		jframe.setSize(720, 480);
 		jframe.setVisible(true);
 		Mat PanneauAAnalyser = null;
-		camera.read(frame);
-		ImageIcon image = new ImageIcon(Mat2bufferedImage(frame));
-		System.out.println(frame);
-		while (camera.read(frame)) {
-			image.setImage(Mat2bufferedImage(frame));
+		this.camera.read(this.frame);
+		ImageIcon image = new ImageIcon(Mat2bufferedImage(this.frame));
+		//System.out.println(this.frame);
+		while (this.camera.read(this.frame)) {
+			image.setImage(Mat2bufferedImage(this.frame));
 			vidpanel.setIcon(image);
 			vidpanel.repaint();
 			
-			Mat m=frame;
+			Mat m=this.frame;
 			
 			Mat transformee=MaBibliothequeTraitementImage.transformeBGRversHSV(m);
 			//la methode seuillage est ici extraite de l'archivage jar du meme nom 

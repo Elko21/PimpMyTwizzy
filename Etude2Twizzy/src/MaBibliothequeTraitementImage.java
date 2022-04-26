@@ -270,7 +270,7 @@ public class MaBibliothequeTraitementImage {
            
        
             MatOfDMatch matchs = new MatOfDMatch();
-            DescriptorMatcher matcher= DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE_HAMMING);
+            DescriptorMatcher matcher= DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE_L1);
             matcher.match(objectDescriptor,signDescriptor, matchs);
             //System.out.println(matchs.dump());
             Mat matchedImage = new Mat(panneauref.rows(),panneauref.cols()*2,panneauref.type());

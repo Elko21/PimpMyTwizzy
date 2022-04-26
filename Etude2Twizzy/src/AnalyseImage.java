@@ -1,19 +1,18 @@
 
+
 import java.util.Arrays;
 import java.util.List;
 
 import org.opencv.core.*;
 import org.opencv.highgui.*;
 
-public class Principale {
-
+public class AnalyseImage {
 		static {
-		//Ouverture le l'image et saturation des rouges
 		System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
 		}
 		Mat m;
 		
-		public Principale(String imageFournie) {
+		public AnalyseImage(String imageFournie) {
 		this.m=Highgui.imread(imageFournie,Highgui.CV_LOAD_IMAGE_COLOR);
 		//MaBibliothequeTraitementImage.afficheImage("Image testée", m);
 		//Mat transformee=MaBibliothequeTraitementImage.transformeBGRversHSV(m);
@@ -24,7 +23,14 @@ public class Principale {
 		//List<MatOfPoint> ListeContours= MaBibliothequeTraitementImage .ExtractContours(saturee);
 		}
 		
-		public void determinationImage(List<MatOfPoint> ListeContours,Mat m) {
+		public void determinationImage() {
+		MaBibliothequeTraitementImage.afficheImage("Image testée", m);
+		Mat transformee=MaBibliothequeTraitementImage.transformeBGRversHSV(m);
+			//la methode seuillage est ici extraite de l'archivage jar du meme nom 
+		Mat saturee=MaBibliothequeTraitementImage.seuillage(transformee, 6, 170, 110);
+
+			//Création d'une liste des contours à partir de l'image saturée
+		List<MatOfPoint> ListeContours= MaBibliothequeTraitementImage .ExtractContours(saturee);
 		int i=0;
 		double [] scores=new double [6];
 		Mat objetrond = null;
@@ -61,8 +67,10 @@ public class Principale {
 				}
 
 			}
-		}	
-
 		}
-	
+		}
 }
+		
+	
+
+
