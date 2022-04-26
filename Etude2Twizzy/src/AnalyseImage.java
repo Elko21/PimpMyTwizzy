@@ -56,7 +56,7 @@ public class AnalyseImage {
 					if (scores[j]<scoremax){scoremax=scores[j];indexmax=j;}}	
 				if(scoremax<0){System.out.println("Aucun Panneau détécté");}
 				else{switch(indexmax){
-				case -1:;break;
+				case -1:;break;7 MAI ANNIVERSAIRE ELKO
 				case 0:System.out.println("Panneau 30 détécté");break;
 				case 1:System.out.println("Panneau 50 détécté");break;
 				case 2:System.out.println("Panneau 70 détécté");break;
