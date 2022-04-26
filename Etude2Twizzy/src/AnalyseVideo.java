@@ -33,39 +33,79 @@ public class AnalyseVideo {
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		System.load("C:\\Program Files\\opencv\\build\\x64\\vc14\\bin\\opencv_ffmpeg2413_64.dll");
+		
 	}
+	private Mat frame;
+	private VideoCapture camera;
+	
+	public AnalyseVideo(String video) {
+		Mat frame = new Mat();
+		VideoCapture camera = new VideoCapture();
+		camera.open(video);
+	}
+		
+	/*	A METTRE DANS LE MAIN
+	 * 
+	 * if(!camera.isOpened()){
+	        System.out.println("Camera Error");
+	    }
+	    else{
+	        System.out.println("Camera OK?");
+	    }
+		lectureVideo(camera, frame, vidpanel);
+*/
+		
+	
+	public static BufferedImage Mat2bufferedImage(Mat image) {
+		MatOfByte bytemat = new MatOfByte();
+		Highgui.imencode(".jpg", image, bytemat);
+		byte[] bytes = bytemat.toArray();
+		InputStream in = new ByteArrayInputStream(bytes);
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(in);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return img;
+	}
+	
+	public static int identifiepanneau(Mat objetrond){
+		
+		double [] scores=new double [6];
+		int indexmax=-1;
+		if (objetrond!=null){
+			//MaBibliothequeTraitementImage.afficheImage("Objet rond detécté", objetrond);
+			scores[0]=MaBibliothequeTraitementImage.Similitude(objetrond,"ref30.jpg");
+			scores[1]=MaBibliothequeTraitementImage.Similitude(objetrond,"ref50.jpg");
+			scores[2]=MaBibliothequeTraitementImage.Similitude(objetrond,"ref70.jpg");
+			scores[3]=MaBibliothequeTraitementImage.Similitude(objetrond,"ref90.jpg");
+			scores[4]=MaBibliothequeTraitementImage.Similitude(objetrond,"ref110.jpg");
+			scores[5]=MaBibliothequeTraitementImage.Similitude(objetrond,"refdouble.jpg");
 
+			double scoremax=scores[0];
 
-
-	public static void main(String[] args) {
+			for(int j=1;j<scores.length;j++){
+				if (scores[j]<scoremax){scoremax=scores[j];indexmax=j;
+					}
+				}	
+		}
+		return indexmax;
+	}
+	
+	public static void lectureVideo(VideoCapture camera,Mat frame) {
 		JFrame jframe = new JFrame("Detection de panneaux sur un flux vidéo");
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JLabel vidpanel = new JLabel();
 		jframe.setContentPane(vidpanel);
 		jframe.setSize(720, 480);
 		jframe.setVisible(true);
-
-		Mat frame = new Mat();
-		VideoCapture camera = new VideoCapture();
-		camera.open("video1.avi");
-		
-		if(!camera.isOpened()){
-	        System.out.println("Camera Error");
-	    }
-	    else{
-	        System.out.println("Camera OK?");
-	    }
-
 		Mat PanneauAAnalyser = null;
 		camera.read(frame);
 		ImageIcon image = new ImageIcon(Mat2bufferedImage(frame));
 		System.out.println(frame);
-		
-			while (camera.read(frame)) {
-			//A completer
-				
-			
-
+		while (camera.read(frame)) {
 			image.setImage(Mat2bufferedImage(frame));
 			vidpanel.setIcon(image);
 			vidpanel.repaint();
@@ -96,60 +136,9 @@ public class AnalyseVideo {
 					case 3:System.out.println("Panneau 90 détécté");break;
 					case 4:System.out.println("Panneau 110 détécté");break;
 					case 5:System.out.println("Panneau interdiction de dépasser détécté");break;
-					}}
-
+						}
+					}
 				}
-				
 			}
-			
-		
-			
-			
-		}
-	
-	
-
-
-
-	public static BufferedImage Mat2bufferedImage(Mat image) {
-		MatOfByte bytemat = new MatOfByte();
-		Highgui.imencode(".jpg", image, bytemat);
-		byte[] bytes = bytemat.toArray();
-		InputStream in = new ByteArrayInputStream(bytes);
-		BufferedImage img = null;
-		try {
-			img = ImageIO.read(in);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return img;
 	}
-
-
-
-	public static int identifiepanneau(Mat objetrond){
-		
-		double [] scores=new double [6];
-		int indexmax=-1;
-		if (objetrond!=null){
-			//MaBibliothequeTraitementImage.afficheImage("Objet rond detécté", objetrond);
-			scores[0]=MaBibliothequeTraitementImage.Similitude(objetrond,"ref30.jpg");
-			scores[1]=MaBibliothequeTraitementImage.Similitude(objetrond,"ref50.jpg");
-			scores[2]=MaBibliothequeTraitementImage.Similitude(objetrond,"ref70.jpg");
-			scores[3]=MaBibliothequeTraitementImage.Similitude(objetrond,"ref90.jpg");
-			scores[4]=MaBibliothequeTraitementImage.Similitude(objetrond,"ref110.jpg");
-			scores[5]=MaBibliothequeTraitementImage.Similitude(objetrond,"refdouble.jpg");
-
-			double scoremax=scores[0];
-
-			for(int j=1;j<scores.length;j++){
-				if (scores[j]<scoremax){scoremax=scores[j];indexmax=j;}}	
-
-
-		}
-		return indexmax;
 	}
-
-
-}
