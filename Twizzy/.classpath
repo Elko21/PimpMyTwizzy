@@ -24,7 +24,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/polob/OneDrive/Documents/ensem/2A/Twizzy/Activite/BE ISN/PriseEnMainActivite0/Mabiblio.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/OpenCV"/>
+	<classpathentry kind="lib" path="C:/Users/polob/OneDrive/Documents/GitHub/PimpMyTwizzy_2022/Mabiblio.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
