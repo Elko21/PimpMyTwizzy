@@ -64,9 +64,6 @@ public class Bouton extends JButton implements MouseListener {
 				if (objetrond!=null){
 					afficheImage("contour", objetrond);
 				}
-				else {
-					System.out.println("mashala");
-				}
 			}
 		}
 		
