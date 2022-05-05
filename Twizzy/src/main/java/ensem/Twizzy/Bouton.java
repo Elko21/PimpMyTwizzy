@@ -74,6 +74,53 @@ public class Bouton extends JButton implements MouseListener {
 			}
 			afficheContour("Contours", ListeContoursDetectes);
 		}
+		if (this.type==TypeBtn.Panneaux){
+			System.loadLibrary("opencv_java2413");
+			m=Highgui.imread("resources/img/p1.jpg",Highgui.CV_LOAD_IMAGE_COLOR);
+			afficheImage("Image testée", m);
+			Mat transformee=transformeBGRversHSV(m);
+			//la methode seuillage est ici extraite de l'archivage jar du meme nom 
+			Mat saturee=MaBibliothequeTraitementImage.seuillage(transformee, 6, 170, 110);
+			Mat objetrond = null;
+
+			//Création d'une liste des contours à partir de l'image saturée
+			List<MatOfPoint> ListeContours=ExtractContours(saturee);
+			int i=0;
+			double [] scores=new double [6];
+			//Pour tous les contours de la liste
+			for (MatOfPoint contour: ListeContours  ){
+				i++;
+				objetrond=MaBibliothequeTraitementImage.DetectForm(m,contour);
+
+				if (objetrond!=null){
+					//MaBibliothequeTraitementImage.afficheImage("Objet rond detécté", objetrond);
+					scores[0]=Similitude(objetrond,"resources/img/ref30.jpg");
+					scores[1]=Similitude(objetrond,"resources/img/ref50.jpg");
+					scores[2]=Similitude(objetrond,"resources/img/ref70.jpg");
+					scores[3]=Similitude(objetrond,"resources/img/ref90.jpg");
+					scores[4]=Similitude(objetrond,"resources/img/ref110.jpg");
+					scores[5]=Similitude(objetrond,"resources/img/refdouble.jpg");
+
+
+					//recherche de l'index du maximum et affichage du panneau detecté
+					double scoremax=-1;
+					int indexmax=0;
+					for(int j=0;j<scores.length;j++){
+						if (scores[j]>scoremax){scoremax=scores[j];indexmax=j;}}	
+					if(scoremax<0){System.out.println("Aucun Panneau détécté");}
+					else{switch(indexmax){
+					case -1:;break;
+					case 0:System.out.println("Panneau 30 détécté");break;
+					case 1:System.out.println("Panneau 50 détécté");break;
+					case 2:System.out.println("Panneau 70 détécté");break;
+					case 3:System.out.println("Panneau 90 détécté");break;
+					case 4:System.out.println("Panneau 110 détécté");break;
+					case 5:System.out.println("Panneau interdiction de dépasser détécté");break;
+					}}
+
+				}
+			}
+		}
 		
 	}
 	
@@ -153,6 +200,36 @@ public class Bouton extends JButton implements MouseListener {
 			//afficheImage("Contours",drawing);
 
 			return contours;
+		}
+		public static double Similitude(Mat object,String signfile) {
+
+			// Conversion du signe de reference en niveaux de gris et normalisation
+			Mat panneauref = Highgui.imread(signfile);
+			Mat graySign = new Mat(panneauref.rows(), panneauref.cols(), panneauref.type());
+			Imgproc.cvtColor(panneauref, graySign, Imgproc.COLOR_BGRA2GRAY);
+			Core.normalize(graySign, graySign, 0, 255, Core.NORM_MINMAX);
+			Mat signeNoirEtBlanc=new Mat();
+			
+
+
+			//Conversion du panneau extrait de l'image en gris et normalisation et redimensionnement à la taille du panneau de réference
+			Mat grayObject = new Mat(panneauref.rows(), panneauref.cols(), panneauref.type());
+			Imgproc.resize(object, object, graySign.size());
+			//afficheImage("Panneau extrait de l'image",object);
+			Imgproc.cvtColor(object, grayObject, Imgproc.COLOR_BGRA2GRAY);
+			Core.normalize(grayObject, grayObject, 0, 255, Core.NORM_MINMAX);
+			//Imgproc.resize(grayObject, grayObject, graySign.size());	
+			
+			Mat score=new Mat();
+			Size taille;
+			Core.bitwise_xor(grayObject,graySign,score);
+			int sc=Core.countNonZero(score);
+			double sco=sc;
+			taille=graySign.size();
+			double res;
+			res=taille.height*taille.width-sco;
+			
+			return res;
 		}
 	
 	
