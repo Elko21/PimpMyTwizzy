@@ -25,11 +25,11 @@ import org.opencv.highgui.Highgui;
 
 
 public class Fenetre extends JFrame {
-	private Bouton btn_charger = new Bouton("Charger image",TypeBtn.Chargement);
-	private Bouton btn_conv = new Bouton("Convertir couleur",TypeBtn.Conversion);
-	private Bouton btn_extcol = new Bouton("Extraire couleur",TypeBtn.Masque);
-	private Bouton btn_cont = new Bouton("Detecter contours",TypeBtn.Contours);
-	private Bouton btn_extpan = new Bouton("Extraire panneau",TypeBtn.Panneaux);
+	private Bouton btn_charger = new Bouton("Charger image",TypeBtn.Chargement, this);
+	private Bouton btn_conv = new Bouton("Convertir couleur",TypeBtn.Conversion, this);
+	private Bouton btn_extcol = new Bouton("Extraire couleur",TypeBtn.Masque, this);
+	private Bouton btn_cont = new Bouton("Detecter contours",TypeBtn.Contours, this);
+	private Bouton btn_extpan = new Bouton("Extraire panneau",TypeBtn.Panneaux, this);
 	
 	private JLabel txt_info = new JLabel("Informations sur évènements");
 	private JLabel txt_seuil = new JLabel("Seuils couleur");
@@ -85,7 +85,7 @@ public class Fenetre extends JFrame {
 		conteneur.setLayout(new BorderLayout());
 		conteneur.add(btnPan,BorderLayout.WEST);
 		conteneur.add(entPan,BorderLayout.EAST);
-		conteneur.add(imgPan,BorderLayout.CENTER);
+		//conteneur.add(imgPan,BorderLayout.CENTER);
 		conteneur.add(txt_info,BorderLayout.SOUTH);
 		
 		this.setContentPane(conteneur);

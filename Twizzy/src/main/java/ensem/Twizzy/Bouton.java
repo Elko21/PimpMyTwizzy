@@ -25,11 +25,13 @@ import java.awt.event.MouseEvent;
 public class Bouton extends JButton implements MouseListener {
 	
 	private TypeBtn type;
+	private Fenetre fenetre;
 	
-	public Bouton(String nom,TypeBtn t) {
+	public Bouton(String nom,TypeBtn t, Fenetre f) {
 		super(nom);
 		this.addMouseListener(this);
 		this.type=t;
+		this.fenetre=f;
 		
 	}
 	
@@ -44,17 +46,20 @@ public class Bouton extends JButton implements MouseListener {
 			afficheImage("Image testée", m);
 		}
 		if (this.type==TypeBtn.Conversion){
+			System.loadLibrary("opencv_java2413");
 			m=Highgui.imread("resources/img/p1.jpg",Highgui.CV_LOAD_IMAGE_COLOR);
 			Mat transformee=transformeBGRversHSV(m);
 			afficheImage("Image HSV", transformee);
 		}
 		if (this.type==TypeBtn.Masque){
+			System.loadLibrary("opencv_java2413");
 			m=Highgui.imread("resources/img/p1.jpg",Highgui.CV_LOAD_IMAGE_COLOR);
 			Mat transformee=transformeBGRversHSV(m);
 			Mat saturee=MaBibliothequeTraitementImage.seuillage(transformee, 6, 170, 110);
 			afficheImage("Image saturee", saturee);
 		}
 		if (this.type==TypeBtn.Contours){
+			System.loadLibrary("opencv_java2413");
 			m=Highgui.imread("resources/img/p1.jpg",Highgui.CV_LOAD_IMAGE_COLOR);
 			Mat transformee=transformeBGRversHSV(m);
 			Mat saturee=MaBibliothequeTraitementImage.seuillage(transformee, 6, 170, 110);
@@ -69,7 +74,7 @@ public class Bouton extends JButton implements MouseListener {
 		
 	}
 	
-	public static void afficheImage(String title, Mat img){
+	private void afficheImage(String title, Mat img){
 		MatOfByte matOfByte=new MatOfByte();
 		Highgui.imencode(".png",img,matOfByte);
 		byte[] byteArray=matOfByte.toArray();
@@ -77,19 +82,20 @@ public class Bouton extends JButton implements MouseListener {
 		try{
 			InputStream in=new ByteArrayInputStream(byteArray);
 			bufImage=ImageIO.read(in);
-			JFrame frame=new JFrame();
+			JFrame frame=this.fenetre;
 			frame.setTitle(title);
+			if (frame.getContentPane().getComponentCount()>3) {
+				frame.getContentPane().remove(3);
+			}
 			frame.getContentPane().add(new JLabel(new ImageIcon(bufImage)));
 			frame.pack();
 			frame.setVisible(true);
-
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
-
-
 	}
+	
 	public static Mat transformeBGRversHSV(Mat matriceBGR){
 		Mat matriceHSV=new Mat(matriceBGR.height(),matriceBGR.cols(),matriceBGR.type());
 		Imgproc.cvtColor(matriceBGR,matriceHSV,Imgproc.COLOR_BGR2HSV);
