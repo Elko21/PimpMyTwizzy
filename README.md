@@ -11,7 +11,7 @@
 # Description du projet de bureau d'étude :
 Conception et développement d'un système de détection et de reconnaissance de panneaux de signalisation.
 
-# Operations a effectuer apres chaque pull :
+# Operations a effectuer apres le premier pull :
 	_ Modifier le Java Build Path pour la bibliotheque : Mabiblio.jar :
 		-clique droit sur le projet java
 		-aller dans Java Build Path
