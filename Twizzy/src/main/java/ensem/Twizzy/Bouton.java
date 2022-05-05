@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
+import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 
 public class Bouton extends JButton implements MouseListener {
@@ -43,7 +44,7 @@ public class Bouton extends JButton implements MouseListener {
 			
 			System.loadLibrary("opencv_java2413");
 			m=Highgui.imread("resources/img/p1.jpg",Highgui.CV_LOAD_IMAGE_COLOR);
-			afficheImage("Image testée", m);
+			afficheImage("Image testee", m);
 		}
 		if (this.type==TypeBtn.Conversion){
 			System.loadLibrary("opencv_java2413");
@@ -64,12 +65,14 @@ public class Bouton extends JButton implements MouseListener {
 			Mat transformee=transformeBGRversHSV(m);
 			Mat saturee=MaBibliothequeTraitementImage.seuillage(transformee, 6, 170, 110);
 			List<MatOfPoint> ListeContours= ExtractContours(saturee);
+			List<Mat> ListeContoursDetectes = new ArrayList<Mat>();
 			for (MatOfPoint contour: ListeContours  ){
 				Mat objetrond=MaBibliothequeTraitementImage.DetectForm(m,contour);
 				if (objetrond!=null){
-					afficheImage("contour", objetrond);
+					ListeContoursDetectes.add(objetrond);
 				}
 			}
+			afficheContour("Contours", ListeContoursDetectes);
 		}
 		
 	}
@@ -84,10 +87,10 @@ public class Bouton extends JButton implements MouseListener {
 			bufImage=ImageIO.read(in);
 			JFrame frame=this.fenetre;
 			frame.setTitle(title);
-			if (frame.getContentPane().getComponentCount()>3) {
+			while (frame.getContentPane().getComponentCount()>3) {
 				frame.getContentPane().remove(3);
 			}
-			frame.getContentPane().add(new JLabel(new ImageIcon(bufImage)));
+			frame.getContentPane().add(new JLabel(new ImageIcon(bufImage)), BorderLayout.CENTER);
 			frame.pack();
 			frame.setVisible(true);
 		}
@@ -96,12 +99,37 @@ public class Bouton extends JButton implements MouseListener {
 		}
 	}
 	
+	private void afficheContour(String title, List<Mat> contours){
+		int longueur=contours.size();
+		for (int i=0; i<longueur; i++) {
+			MatOfByte matOfByte=new MatOfByte();
+			Highgui.imencode(".png",contours.get(i),matOfByte);
+			byte[] byteArray=matOfByte.toArray();
+			BufferedImage bufImage=null;
+			try{
+				InputStream in=new ByteArrayInputStream(byteArray);
+				bufImage=ImageIO.read(in);
+				JFrame frame=this.fenetre;
+				frame.setTitle(title);
+				if (frame.getContentPane().getComponentCount()>3 && i==0) {
+					frame.getContentPane().remove(3);
+				}
+				frame.getContentPane().add(new JLabel(new ImageIcon(bufImage)));
+				frame.pack();
+				frame.setVisible(true);
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public static Mat transformeBGRversHSV(Mat matriceBGR){
 		Mat matriceHSV=new Mat(matriceBGR.height(),matriceBGR.cols(),matriceBGR.type());
 		Imgproc.cvtColor(matriceBGR,matriceHSV,Imgproc.COLOR_BGR2HSV);
 		return matriceHSV;
-
 	}
+	
 	//Methode qui permet d'extraire les contours d'une image donnee
 		public static List<MatOfPoint> ExtractContours(Mat input) {
 			// Detecter les contours des formes trouvées
