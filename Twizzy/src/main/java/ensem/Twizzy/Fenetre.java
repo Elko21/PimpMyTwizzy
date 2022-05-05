@@ -30,6 +30,7 @@ public class Fenetre extends JFrame {
 	private Bouton btn_extcol = new Bouton("Extraire couleur",TypeBtn.Masque, this);
 	private Bouton btn_cont = new Bouton("Detecter contours",TypeBtn.Contours, this);
 	private Bouton btn_extpan = new Bouton("Extraire panneau",TypeBtn.Panneaux, this);
+	private Bouton btn_video = new Bouton("Analyser video",TypeBtn.Video, this);
 	
 	private JLabel txt_info = new JLabel("Informations sur évènements");
 	private JLabel txt_seuil = new JLabel("Seuils couleur");
@@ -77,6 +78,9 @@ public class Fenetre extends JFrame {
 		
 		gbc.gridy = 8;
 		btnPan.add(btn_extpan,gbc);
+		
+		gbc.gridy = 10;
+		btnPan.add(btn_video,gbc);
 		
 		entPan.setPreferredSize(new Dimension(width/5,height));
 		btnPan.setBackground(Color.gray);
