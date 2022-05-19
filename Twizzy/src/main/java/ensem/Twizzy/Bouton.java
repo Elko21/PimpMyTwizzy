@@ -25,9 +25,13 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 
 public class Bouton extends JButton implements MouseListener {
-	
+	static {
+	System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+	System.load("C:\\Users\\polob\\Downloads\\opencv\\build\\x64\\vc14\\bin\\opencv_ffmpeg2413_64.dll");
+}
 	private TypeBtn type;
 	private Fenetre fenetre;
+
 	
 	public Bouton(String nom,TypeBtn t, Fenetre f) {
 		super(nom);
@@ -123,8 +127,8 @@ public class Bouton extends JButton implements MouseListener {
 		}
 
 		if (this.type==TypeBtn.Video){
-			AnalyseVideo vod = new AnalyseVideo("resources/img/video2.avi");
-			vod.lectureVideo();
+			ThreadVideo vod = new ThreadVideo();
+			vod.start();
 		}
 		
 	}
