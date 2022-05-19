@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Dimension;
@@ -32,6 +33,7 @@ public class Fenetre extends JFrame {
 	private JButton btn_extpan = new JButton("Extraire panneaux");
 	
 	private JLabel txt_info = new JLabel("Informations sur évènements");
+	
 	private JLabel txt_seuil = new JLabel("Seuils couleur");
 	private JLabel infoMin = new JLabel("Min");
 	private JLabel infoMax = new JLabel("Max");
@@ -41,7 +43,8 @@ public class Fenetre extends JFrame {
 	private JTextField inMin2 = new JTextField("160");
 	private JTextField inMax1 = new JTextField("6");
 	private JTextField inMax2 = new JTextField("179");
-	
+	private JButton btn_def = new JButton("Valeurs par défaut");
+	private JButton btn_nouv = new JButton("Nouvelles valeurs");
 	
 	private JPanel btnPan = new JPanel();
 	private JPanel entPan = new JPanel();
@@ -78,8 +81,48 @@ public class Fenetre extends JFrame {
 		gbc.gridy = 8;
 		btnPan.add(btn_extpan,gbc);
 		
-		entPan.setPreferredSize(new Dimension(width/5,height));
 		btnPan.setBackground(Color.gray);
+		
+		entPan.setPreferredSize(new Dimension(width/5,height));
+		entPan.setLayout(new GridLayout(4,2));
+		entPan.add(txt_seuil);
+		// entPan.add(btn_def);
+		entPan.add(infoMin);
+		entPan.add(infoMax);
+		entPan.add(inMin1);
+		entPan.add(inMin2);
+		entPan.add(inMax1);
+		entPan.add(inMax2);
+		// entPan.add(btn_nouv);
+		
+		/*
+		entPan.setLayout(new GridBagLayout());
+		
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		entPan.add(txt_seuil,gbc);
+		
+		gbc.gridy = 1;
+		gbc.gridwidth = 1;
+		entPan.add(infoMin,gbc);
+		
+		gbc.gridx = 1;
+		entPan.add(infoMax,gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		entPan.add(inMin1,gbc);
+		
+		gbc.gridx = 1;
+		entPan.add(inMax1,gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		entPan.add(inMin2,gbc);
+		
+		gbc.gridx = 1;
+		entPan.add(inMax2,gbc);
+		*/
 		
 		conteneur.setBackground(Color.white);
 		conteneur.setLayout(new BorderLayout());

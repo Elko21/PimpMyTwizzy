@@ -6,11 +6,12 @@ import java.awt.event.MouseEvent;
 
 public class Bouton extends JButton implements MouseListener {
 	static private String nom = "Charger image";
+	static private TypeBtn type;
 	
-	public Bouton(TypeBtn t) {
+	public Bouton(TypeBtn t){
 		super(nom);
+		this.type = t;
 		this.addMouseListener(this);
-		
 	}
 	
 	//Méthode appelée lors du clic de souris
