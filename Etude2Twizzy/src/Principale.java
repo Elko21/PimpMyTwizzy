@@ -7,21 +7,27 @@ import org.opencv.highgui.*;
 
 public class Principale {
 
-	public static void main(String[] args)
-	{
+		static {
 		//Ouverture le l'image et saturation des rouges
 		System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
-		Mat m=Highgui.imread("p10.jpg",Highgui.CV_LOAD_IMAGE_COLOR);
-		MaBibliothequeTraitementImage.afficheImage("Image testée", m);
-		Mat transformee=MaBibliothequeTraitementImage.transformeBGRversHSV(m);
+		}
+		Mat m;
+		
+		public Principale(String imageFournie) {
+		this.m=Highgui.imread(imageFournie,Highgui.CV_LOAD_IMAGE_COLOR);
+		//MaBibliothequeTraitementImage.afficheImage("Image testée", m);
+		//Mat transformee=MaBibliothequeTraitementImage.transformeBGRversHSV(m);
 		//la methode seuillage est ici extraite de l'archivage jar du meme nom 
-		Mat saturee=MaBibliothequeTraitementImage.seuillage(transformee, 6, 170, 110);
-		Mat objetrond = null;
+		//Mat saturee=MaBibliothequeTraitementImage.seuillage(transformee, 6, 170, 110);
 
 		//Création d'une liste des contours à partir de l'image saturée
-		List<MatOfPoint> ListeContours= MaBibliothequeTraitementImage .ExtractContours(saturee);
+		//List<MatOfPoint> ListeContours= MaBibliothequeTraitementImage .ExtractContours(saturee);
+		}
+		
+		public void determinationImage(List<MatOfPoint> ListeContours,Mat m) {
 		int i=0;
 		double [] scores=new double [6];
+		Mat objetrond = null;
 		//Pour tous les contours de la liste
 		for (MatOfPoint contour: ListeContours  ){
 			i++;
@@ -51,11 +57,12 @@ public class Principale {
 				case 3:System.out.println("Panneau 90 détécté");break;
 				case 4:System.out.println("Panneau 110 détécté");break;
 				case 5:System.out.println("Panneau interdiction de dépasser détécté");break;
-				}}
+				}
+				}
 
 			}
 		}	
 
-
-	}
+		}
+	
 }

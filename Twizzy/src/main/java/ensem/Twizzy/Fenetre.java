@@ -26,11 +26,12 @@ import org.opencv.highgui.Highgui;
 
 
 public class Fenetre extends JFrame {
-	private JButton btn_charger = new JButton("Charger image");
-	private JButton btn_conv = new JButton("Convertir couleurs");
-	private JButton btn_extcol = new JButton("Extraire couleur");
-	private JButton btn_cont = new JButton("Détecter contours");
-	private JButton btn_extpan = new JButton("Extraire panneaux");
+	private Bouton btn_charger = new Bouton("Charger image",TypeBtn.Chargement, this);
+	private Bouton btn_conv = new Bouton("Convertir couleur",TypeBtn.Conversion, this);
+	private Bouton btn_extcol = new Bouton("Extraire couleur",TypeBtn.Masque, this);
+	private Bouton btn_cont = new Bouton("Detecter contours",TypeBtn.Contours, this);
+	private Bouton btn_extpan = new Bouton("Extraire panneau",TypeBtn.Panneaux, this);
+	private Bouton btn_video = new Bouton("Analyser video",TypeBtn.Video, this);
 	
 	private JLabel txt_info = new JLabel("Informations sur évènements");
 	
@@ -81,6 +82,13 @@ public class Fenetre extends JFrame {
 		gbc.gridy = 8;
 		btnPan.add(btn_extpan,gbc);
 		
+<<<<<<< HEAD
+=======
+		gbc.gridy = 10;
+		btnPan.add(btn_video,gbc);
+		
+		entPan.setPreferredSize(new Dimension(width/5,height));
+>>>>>>> c8360cd981101b01697199bbe37b474227c6a92c
 		btnPan.setBackground(Color.gray);
 		
 		entPan.setPreferredSize(new Dimension(width/5,height));
@@ -128,7 +136,7 @@ public class Fenetre extends JFrame {
 		conteneur.setLayout(new BorderLayout());
 		conteneur.add(btnPan,BorderLayout.WEST);
 		conteneur.add(entPan,BorderLayout.EAST);
-		conteneur.add(imgPan,BorderLayout.CENTER);
+		//conteneur.add(imgPan,BorderLayout.CENTER);
 		conteneur.add(txt_info,BorderLayout.SOUTH);
 		
 		this.setContentPane(conteneur);
