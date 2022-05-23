@@ -21,6 +21,14 @@ public class Panneau extends JPanel {
 		this.dest = emp;
 	}
 	
+	public String getDest() {
+		return this.dest;
+	}
+	
+	public void setDest(String emp) {
+		this.dest = emp;
+	}
+	
 	public void paintComponent(Graphics g) {
 		try {
 			Image img = ImageIO.read(new File(this.dest));
@@ -30,5 +38,4 @@ public class Panneau extends JPanel {
 			e.printStackTrace();
 		}
 	}
-	
 }

@@ -6,20 +6,20 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 
 public class ThreadVideo extends Thread{
-	static {
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		System.load("C:\\Users\\polob\\Downloads\\opencv\\build\\x64\\vc14\\bin\\opencv_ffmpeg2413_64.dll");
-	}
-	//private string video;
+	private String source;
+	private Fenetre fenetre;
 	
-	//public ThreadVideo(string lienvideo)
-	public ThreadVideo() {
-		//this.video = lienvideo;
+	public ThreadVideo(String src, Fenetre f) {
+		this.source = src;
+		this.fenetre = f;
+	}
+	
+	public void setSource(String src) {
+		this.source = src;
 	}
 	
 	public void run() {
-		//AnalyseVideo.LectureVideo(this.video);
-		AnalyseVideo.lectureVideo();
+		this.fenetre.lectureVideo(this.source);
 	}
 
 }
