@@ -58,7 +58,7 @@ public class Bouton extends JButton implements MouseListener {
 				File file = fc.getSelectedFile();
 				String ext = getExtension(file);
 				
-				if (ext == "jpg" || ext == "jpeg" || ext == "png") {
+				if (ext.equals("jpg") || ext.equals("jpeg") || ext.equals("png")) {
 					relPath = cheminRelatif(new File(""),file);
 					this.fenetre.actionBtnCharger(relPath);
 				}
@@ -98,7 +98,7 @@ public class Bouton extends JButton implements MouseListener {
 				File file = fc.getSelectedFile();
 				String ext = getExtension(file);
 				
-				if (ext == "avi" || ext == "mp4") {
+				if (ext.equals("avi") || ext.equals("mp4")) {
 					relPath = cheminRelatif(new File(""),file);
 					this.fenetre.actionBtnVideo(relPath);
 				}
