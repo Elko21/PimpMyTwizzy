@@ -56,8 +56,15 @@ public class Bouton extends JButton implements MouseListener {
 			
 			if (returnVal != JFileChooser.CANCEL_OPTION) {
 				File file = fc.getSelectedFile();
-				relPath = cheminRelatif(new File(""),file);
-				this.fenetre.actionBtnCharger(relPath);
+				String ext = getExtension(file);
+				
+				if (ext == "jpg" || ext == "jpeg" || ext == "png") {
+					relPath = cheminRelatif(new File(""),file);
+					this.fenetre.actionBtnCharger(relPath);
+				}
+				else {
+					this.fenetre.afficherException("Image non chargée car extension non supportée ... Réessayez avec une image JPEG ou PNG");
+				}
 			}			
 		}
 		
@@ -89,8 +96,15 @@ public class Bouton extends JButton implements MouseListener {
 			
 			if (returnVal != JFileChooser.CANCEL_OPTION) {
 				File file = fc.getSelectedFile();
-				relPath = cheminRelatif(new File(""),file);
-				this.fenetre.actionBtnVideo(relPath);
+				String ext = getExtension(file);
+				
+				if (ext == "avi" || ext == "mp4") {
+					relPath = cheminRelatif(new File(""),file);
+					this.fenetre.actionBtnVideo(relPath);
+				}
+				else {
+					this.fenetre.afficherException("Vidéo non chargée car extension non supportée ... Réessayez avec une vidéo AVI ou MP4");
+				}	
 			}			
 		}
 		
@@ -107,6 +121,16 @@ public class Bouton extends JButton implements MouseListener {
 		return  path2.relativize(path1).getPath();
 	}
 
+	public static String getExtension(File f) {
+        String ext = null;
+        String s = f.getName();
+        int i = s.lastIndexOf('.');
+
+        if (i > 0 &&  i < s.length() - 1) {
+            ext = s.substring(i+1).toLowerCase();
+        }
+        return ext;
+    }
 
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub

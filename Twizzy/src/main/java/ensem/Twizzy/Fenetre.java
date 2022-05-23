@@ -271,6 +271,10 @@ public class Fenetre extends JFrame {
 		this.txt_info.setText("Analyse vidéo stoppée ...");
 	}
 	
+	public void afficherException(String txt) {
+		this.txt_info.setText(txt);
+	}
+	
 	public void afficheImage(String title, Mat im){
 		MatOfByte matOfByte = new MatOfByte();
 		Highgui.imencode(".jpg",im,matOfByte);
